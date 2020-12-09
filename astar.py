@@ -1,16 +1,18 @@
 # pylint: skip-file
 import pygame
 import math
+import platform
+from tkinter import *
+from tkinter import messagebox
 from queue import PriorityQueue
-
 from pygame.constants import QUIT,KEYDOWN,K_SPACE,K_c
 
-WIDTH = 800
+WIDTH = 700
 WIN = pygame.display.set_mode((WIDTH, WIDTH))
-pygame.display.set_caption("A* Path Finding Algorithm")
+pygame.display.set_caption(" Visualization of A* Path Finding Algorithm ")
 
 RED = (255, 0, 0)
-GREEN = (0, 255, 0)
+GREEN = (0, 128, 0)
 BLUE = (0, 255, 0)
 YELLOW = (255, 255, 0)
 WHITE = (255, 255, 255)
@@ -19,6 +21,14 @@ PURPLE = (128, 0, 128)
 ORANGE = (255, 165 ,0)
 GREY = (128, 128, 128)
 TURQUOISE = (64, 224, 208)
+
+
+def texting(t):
+    if t:
+        messagebox.showinfo('Result','The destinations has been achieved! :) ')
+    else:
+        messagebox.showinfo('Result','Oops! Sorry the destination could not be achieved :( ')
+
 
 class Spot:
 	def __init__(self, row, col, width, total_rows):
@@ -91,7 +101,7 @@ class Spot:
 		return False
 
 
-def h(p1, p2):
+def heuristic(p1, p2):
 	x1, y1 = p1
 	x2, y2 = p2
 	return abs(x1 - x2) + abs(y1 - y2)
@@ -112,7 +122,7 @@ def algorithm(draw, grid, start, end):
 	g_score = {spot: float("inf") for row in grid for spot in row}
 	g_score[start] = 0
 	f_score = {spot: float("inf") for row in grid for spot in row}
-	f_score[start] = h(start.get_pos(), end.get_pos())
+	f_score[start] = heuristic(start.get_pos(), end.get_pos())
 
 	open_set_hash = {start}
 
@@ -135,7 +145,7 @@ def algorithm(draw, grid, start, end):
 			if temp_g_score < g_score[neighbor]:
 				came_from[neighbor] = current
 				g_score[neighbor] = temp_g_score
-				f_score[neighbor] = temp_g_score + h(neighbor.get_pos(), end.get_pos())
+				f_score[neighbor] = temp_g_score + heuristic(neighbor.get_pos(), end.get_pos())
 				if neighbor not in open_set_hash:
 					count += 1
 					open_set.put((f_score[neighbor], count, neighbor))
@@ -236,7 +246,7 @@ def main(win, width):
 						for spot in row:
 							spot.update_neighbors(grid)
 
-					algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end)
+					texting(algorithm(lambda: draw(win, grid, ROWS, width), grid, start, end))
 
 				if event.key == K_c:
 					start = None
@@ -245,4 +255,7 @@ def main(win, width):
 
 	quit()
 
+window=Tk()
+window.withdraw()
 main(WIN, WIDTH)
+window.quit()
