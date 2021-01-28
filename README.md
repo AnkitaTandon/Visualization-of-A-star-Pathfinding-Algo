@@ -1,5 +1,5 @@
 # Visualization-of-A-star-Pathfinding-Algo
-A shortest path finding algo
+**AIM:** To design an application, with an effectively efficient mechanism which takes the start and end points on a two-dimensional grid having black blocks represent the obstacles that has to be overcomed inorder to obtain the shortest possible path from start point to the end point on the grid.
 
 ## Software Required
 Preferred environment: VS code along with python and its extension
