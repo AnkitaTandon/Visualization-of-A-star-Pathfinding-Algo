@@ -1,4 +1,5 @@
 # WORK IN PROGRESS :D
+# The partial code 
 import math
 
 col=25
